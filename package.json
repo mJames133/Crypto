@@ -1,7 +1,7 @@
 {
   "name": "my-app",
   "version": "0.1.0",
-  "homepage": "https://mjames133.github.io/crypto",
+  "homepage": "https://mjames133.github.io/Crypto",
   "private": true,
   "dependencies": {
     "@babel/core": "^7.13.0",
