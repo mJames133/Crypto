@@ -79,8 +79,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Navbar = (props) => {
-  const [anchorEl, setAnchorEl] = React.useState(null);
+const Navbar = ({ changePage }) => {
+  const [anchorEl, setAnchorEl] = useState(null);
+
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -96,7 +97,7 @@ const Navbar = (props) => {
       {!isMobile && (
         <Toolbar>
           <Typography variant="h4" className={classes.root}>
-            <Link to="/">
+            <Link to="/Crypto/" onClick={() => changePage(0)}>
               <img src={Logo} alt="Logo" className={classes.logoImg} />
             </Link>
           </Typography>
@@ -109,6 +110,7 @@ const Navbar = (props) => {
           <Link to="/favorites" style={{ textDecoration: "none" }}>
             <Button className={classes.button}>Favourites</Button>
           </Link>
+          <Switch onChange={(e) => setDark(e.target.checked)} />
         </Toolbar>
       )}
       {isMobile && (

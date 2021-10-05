@@ -10,32 +10,36 @@ import {
   Typography,
   Checkbox,
 } from "@material-ui/core";
-import { Pagination } from "@mui/material";
+import { TablePagination } from "@mui/material";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import useStyles from "./DataTableStyles";
 import { numberWithCommas } from "../helpers";
 import { Link } from "react-router-dom";
 
-const DataTable = ({ coins, search }) => {
+const DataTable = (props) => {
   const setFavorite = useContext(FavoriteContext);
-
   const storedFavorites = JSON.parse(localStorage.getItem("Favorites"));
 
-  const [page, setPage] = useState(1);
   const [selected, setSelected] = useState(storedFavorites || []);
-  const rowsPerPage = 20;
+
+  if (props.favorites && selected.length < props.rowsPerPage)
+    props.pageChanges(0);
+
+  const filteredCoins = props.coins.filter(
+    (coin) =>
+      coin.name.toLowerCase().includes(props.search.toLowerCase()) |
+      coin.symbol.toLowerCase().includes(props.search.toLowerCase())
+  );
 
   const handleChangePage = (event, newPage) => {
-    setPage(newPage);
+    props.pageChanges(newPage);
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
-
-  const filteredCoins = coins.filter(
-    (coin) =>
-      coin.name.toLowerCase().includes(search.toLowerCase()) |
-      coin.symbol.toLowerCase().includes(search.toLowerCase())
-  );
+  const handleChangeRowsPerPage = (event) => {
+    props.onChangeRowsPerPage(+event.target.value);
+    props.pageChanges(0);
+  };
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
@@ -45,14 +49,6 @@ const DataTable = ({ coins, search }) => {
     }
   };
 
-  useEffect(() => {
-    setPage(1);
-  }, [search]);
-
-  useEffect(() => {
-    localStorage.setItem("Favorites", JSON.stringify(selected));
-  }, [selected]);
-
   const handleClick = async (value) => {
     if (selected.find((val) => val.id === value.id)) {
       setSelected(selected.filter((val) => val.id !== value.id));
@@ -60,6 +56,9 @@ const DataTable = ({ coins, search }) => {
       setSelected([...selected, value]);
     }
   };
+  useEffect(() => {
+    localStorage.setItem("Favorites", JSON.stringify(selected));
+  }, [selected]);
   useEffect(() => {
     setFavorite(selected);
   }, [setFavorite, selected]);
@@ -81,23 +80,22 @@ const DataTable = ({ coins, search }) => {
             <TableCell width={70} className={classes.tableHeaderCell}>
               #
             </TableCell>
-            <TableCell className={classes.tableHeaderCell}>Name</TableCell>
-            <TableCell className={classes.tableHeaderCell}>Price</TableCell>
-            <TableCell className={classes.tableHeaderCell}>
+            <TableCell width={200} className={classes.tableHeaderCell}>
+              Name
+            </TableCell>
+            <TableCell width={200} className={classes.tableHeaderCell}>
+              Price
+            </TableCell>
+            <TableCell width={200} className={classes.tableHeaderCell}>
               Market Cap
             </TableCell>
-            <TableCell className={classes.tableHeaderCell}>
+            <TableCell width={200} className={classes.tableHeaderCell}>
               Volume (24h)
             </TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {filteredCoins
-            .slice(
-              (page - 1) * rowsPerPage,
-              (page - 1) * rowsPerPage + rowsPerPage
-            )
-            .map((row, index) => {
+          {filteredCoins.map((row, index) => {
               return (
                 <TableRow key={index} className={classes.rowStyle}>
                   <TableCell padding="checkbox">
@@ -116,12 +114,11 @@ const DataTable = ({ coins, search }) => {
                   </TableCell>
                   <TableCell className={classes.text}>
                     <Typography color="textSecondary" variant="body2">
-                      {page !== 1 && index + 1 + rowsPerPage * (page - 1)}
-                      {page === 1 && index + 1}
+                    {index + 1 + props.rowsPerPage * props.page}
                     </Typography>
                   </TableCell>
                   <TableCell>
-                    <Link to={`/coins/${row.id}`} className={classes.link}>
+                  <Link to={`/Crypto/coins/${row.id}`} className={classes.link}>
                       <Grid container className={classes.grid}>
                         <img
                           className={classes.image}
@@ -129,9 +126,7 @@ const DataTable = ({ coins, search }) => {
                           alt="Coin Logo"
                         ></img>
 
-                        <Typography className={classes.name}>
-                          {row.name}
-                        </Typography>
+                      <Typography color="textPrimary">{row.name}</Typography>
                         <Typography className={classes.symbol}>
                           {row.symbol.toUpperCase()}
                         </Typography>
@@ -139,18 +134,18 @@ const DataTable = ({ coins, search }) => {
                     </Link>
                   </TableCell>
                   <TableCell>
-                    <Typography className={classes.name}>
+                  <Typography>
                       {`$${numberWithCommas(row.current_price.toFixed(2))}`}
                     </Typography>
                   </TableCell>
                   <TableCell>
-                    <Typography className={classes.name}>
-                      {`${numberWithCommas(row.market_cap)}`}
+                  <Typography>
+                    {`$${numberWithCommas(row.market_cap)}`}
                     </Typography>
                   </TableCell>
                   <TableCell>
-                    <Typography className={classes.name}>
-                      {`${numberWithCommas(row.total_volume)}`}
+                  <Typography>
+                    {`$${numberWithCommas(row.total_volume)}`}
                     </Typography>
                   </TableCell>
                 </TableRow>
@@ -158,13 +153,22 @@ const DataTable = ({ coins, search }) => {
             })}
         </TableBody>
       </Table>
-      <Pagination
+      <TablePagination
         className={classes.pagination}
-        count={+(filteredCoins.length / rowsPerPage).toFixed(0)}
-        page={page}
-        onChange={handleChangePage}
-        size="large"
-        color="primary"
+        classes={{
+          selectLabel: classes.tablePagination,
+          displayedRows: classes.tablePaginationDisplayedRows,
+          selectIcon: classes.tablePaginationSelectIcon,
+          select: classes.tablePaginationSelect,
+          actions: classes.tablePaginationActions,
+        }}
+        rowsPerPageOptions={[10, 15, 20, 25, 30]}
+        component="div"
+        count={100}
+        rowsPerPage={+props.rowsPerPage}
+        page={props.page}
+        onPageChange={handleChangePage}
+        onRowsPerPageChange={handleChangeRowsPerPage}
       />
     </TableContainer>
   );

@@ -3,10 +3,13 @@ import { useEffect, useState } from "react";
 import { SearchContext } from "./components/NavBar";
 import PageRoute from "./components/DataTable/PageRoute";
 import { FavoriteContext } from "./components/DataTable/DataTable";
-import { Container } from "@material-ui/core";
+import { useListPostsQuery } from "./components/data";
 
 function App() {
-  const [coins, setCoins] = useState([]);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(20);
+  const { data: posts, isLoading } = useListPostsQuery(page + 1, rowsPerPage);
+
   const [search, setSearch] = useState("");
   const [favorite, setFavorite] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -28,12 +31,20 @@ function App() {
   return (
     <Container fixed>
       <SearchContext.Provider value={setSearch}>
-        <Navbar search={search} favorite={favorite} />
+                changePage={setPage}
       </SearchContext.Provider>
       <FavoriteContext.Provider value={setFavorite}>
-        <PageRoute coins={coins} search={search} favorite={favorite} />
+              <PageRoute
+                onChangeRowsPerPage={setRowsPerPage}
+                rowsPerPage={rowsPerPage}
+                coins={posts}
+                search={search}
+                favorite={favorite}
+                changePage={setPage}
+                page={page}
+              />
       </FavoriteContext.Provider>
-
+          </ThemeProvider>
       {isLoading && (
         <p style={{ textAlign: "center", fontSize: "30px" }}>Loading...</p>
       )}
