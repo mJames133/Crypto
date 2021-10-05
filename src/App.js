@@ -1,8 +1,10 @@
 import Navbar from "./components/NavBar";
-import { useEffect, useState } from "react";
-import { SearchContext } from "./components/NavBar";
+import { useState } from "react";
+import { SearchContext, DarkContext } from "./components/NavBar";
 import PageRoute from "./components/DataTable/PageRoute";
 import { FavoriteContext } from "./components/DataTable/DataTable";
+import { ThemeProvider } from "@material-ui/styles";
+import { createTheme, Container, CssBaseline } from "@material-ui/core";
 import { useListPostsQuery } from "./components/data";
 
 function App() {
@@ -12,26 +14,27 @@ function App() {
 
   const [search, setSearch] = useState("");
   const [favorite, setFavorite] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [dark, setDark] = useState(false);
 
-  const getData = async () => {
-    setIsLoading(true);
-    const res = await fetch(
-      "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1"
-    );
-    const data = await res.json();
-    setIsLoading(false);
-    setCoins(data);
-  };
-
-  useEffect(() => {
-    getData();
-  }, []);
+  const darkTheme = createTheme({
+    palette: {
+      type: dark ? "dark" : "light",
+    },
+  });
 
   return (
+    <DarkContext.Provider value={setDark}>
     <Container fixed>
+        {!isLoading && (
+          <ThemeProvider theme={darkTheme}>
+            <CssBaseline />
       <SearchContext.Provider value={setSearch}>
+              <Navbar
+                search={search}
+                favorite={favorite}
+                mode={dark}
                 changePage={setPage}
+              />
       </SearchContext.Provider>
       <FavoriteContext.Provider value={setFavorite}>
               <PageRoute
@@ -45,10 +48,12 @@ function App() {
               />
       </FavoriteContext.Provider>
           </ThemeProvider>
+        )}
       {isLoading && (
         <p style={{ textAlign: "center", fontSize: "30px" }}>Loading...</p>
       )}
     </Container>
+    </DarkContext.Provider>
   );
 }
 

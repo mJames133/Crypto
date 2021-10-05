@@ -16,13 +16,6 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: "bold",
     color: "#ccc",
   },
-  pagination: {
-    margin: "15px 0",
-    display: "flex",
-    textAlign: "center",
-    alignItems: "center",
-    justifyContent: "center",
-  },
 
   image: {
     marginRight: 10,
@@ -36,10 +29,31 @@ const useStyles = makeStyles((theme) => ({
   link: {
     textDecoration: "none",
   },
+  pagination: {
+    display: "flex",
+    justifyContent: "center",
+    padding: "10px 0",
+  },
   rowStyle: {
     "&:hover": {
-      backgroundColor: "rgb(248,250,253)",
+      backgroundColor: theme.palette.action.hover,
     },
+  },
+
+  tablePagination: {
+    color: theme.palette.text.primary,
+  },
+  tablePaginationDisplayedRows: {
+    color: theme.palette.text.primary,
+  },
+  tablePaginationSelectIcon: {
+    color: theme.palette.text.primary,
+  },
+  tablePaginationSelect: {
+    color: theme.palette.text.primary,
+  },
+  tablePaginationActions: {
+    color: theme.palette.text.primary,
   },
 }));
 

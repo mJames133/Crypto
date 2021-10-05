@@ -1,4 +1,4 @@
-import React, { useContext, createContext } from "react";
+import { useContext, createContext, useState } from "react";
 import {
   makeStyles,
   AppBar,
@@ -7,15 +7,13 @@ import {
   Button,
 } from "@material-ui/core";
 import { styled, alpha } from "@mui/material/styles";
-import InputBase from "@mui/material/InputBase";
 import Logo from "../assets/logo.png";
 import { Link } from "react-router-dom";
 import SearchBar from "./SearchBar";
 import { isMobile } from "react-device-detect";
+import { Switch, InputBase, MenuItem, Menu } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -41,7 +39,6 @@ const SearchIconWrapper = styled("div")(({ theme }) => ({
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
   color: "inherit",
   "& .MuiInputBase-input": {
-    // vertical padding + font size from searchIcon
     paddingLeft: `calc(1em + ${theme.spacing(4)})`,
     transition: theme.transitions.create("width"),
     width: "100%",
@@ -86,9 +83,11 @@ const Navbar = ({ changePage }) => {
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
+
   const handleClose = () => {
     setAnchorEl(null);
   };
+  const setDark = useContext(DarkContext);
   const setKeyword = useContext(SearchContext);
   const classes = useStyles();
 
@@ -107,7 +106,8 @@ const Navbar = ({ changePage }) => {
             onRequestSearch={(e) => setKeyword(e)}
             onCancelSearch={(e) => setKeyword(e || "")}
           />
-          <Link to="/favorites" style={{ textDecoration: "none" }}>
+
+          <Link to="/Crypto/favorites" style={{ textDecoration: "none" }}>
             <Button className={classes.button}>Favourites</Button>
           </Link>
           <Switch onChange={(e) => setDark(e.target.checked)} />
@@ -115,10 +115,11 @@ const Navbar = ({ changePage }) => {
       )}
       {isMobile && (
         <Toolbar className={classes.tools}>
-          <Link to="/">
+          <Link to="/Crypto/">
             <img src={Logo} alt="Logo" className={classes.mobileLogo} />
           </Link>
           <ul className={classes.list}>
+            <Switch onChange={(e) => setDark(e.target.checked)} />
             <Search>
               <SearchIconWrapper>
                 <SearchIcon />
@@ -142,7 +143,7 @@ const Navbar = ({ changePage }) => {
             >
               <MenuItem>
                 <Link
-                  to="/favorites"
+                  to="/Crypto/favorites"
                   style={{ textDecoration: "none", color: "#000" }}
                 >
                   Favorites
@@ -157,4 +158,5 @@ const Navbar = ({ changePage }) => {
 };
 
 export const SearchContext = createContext();
+export const DarkContext = createContext();
 export default Navbar;
