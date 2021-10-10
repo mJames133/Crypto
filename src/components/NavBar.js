@@ -52,7 +52,7 @@ const useStyles = makeStyles((theme) => ({
     color: "#fff",
     "&:hover": {
       color: "#999",
-  },
+    },
   },
   searchbar: {
     marginRight: 30,
@@ -63,6 +63,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const Navbar = (props) => {
+  const setKeyword = useContext(SearchContext);
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const theme = useTheme();
@@ -75,20 +77,19 @@ const useStyles = makeStyles((theme) => ({
     else dark.dispatch({ type: "DARKMODE" });
   };
 
-  const handleClose = () => {
-    setAnchorEl(null);
+  const handleDrawer = () => {
+    setOpen(!open);
   };
-  const setDark = useContext(DarkContext);
-  const setKeyword = useContext(SearchContext);
-  const classes = useStyles();
 
   return (
     <AppBar position="static">
       {!isMobile && (
-        <Toolbar>
+        <Container fixed>
+          <Toolbar>
+            <div className={classes.root}>
               <Link to="/Crypto/" onClick={() => props.changePage(0)}>
                 <Logo fill="#fff" />
-            </Link>
+              </Link>
 
               <Link
                 to="/Crypto/favorites"
@@ -96,44 +97,53 @@ const useStyles = makeStyles((theme) => ({
               >
                 <Typography className={classes.text} variant="h6">
                   FAVORITES
-          </Typography>
+                </Typography>
               </Link>
             </div>
-          <SearchBar
-            className={classes.searchbar}
-            onChange={(e) => setKeyword(e)}
-            onRequestSearch={(e) => setKeyword(e)}
-            onCancelSearch={(e) => setKeyword(e || "")}
-          />
+            <SearchBar
+              className={classes.searchbar}
+              onChange={(e) => setKeyword(e)}
+              onCancelSearch={(e) => setKeyword(e || "")}
+            />
             <MUISwitch onChange={darkModeSwitchHandler} />
-        </Toolbar>
+          </Toolbar>
+        </Container>
       )}
       {isMobile && (
         <Toolbar className={classes.tools}>
-          <Link to="/Crypto/">
-            <img src={Logo} alt="Logo" className={classes.mobileLogo} />
-          </Link>
-          <ul className={classes.list}>
-            <Switch onChange={(e) => setDark(e.target.checked)} />
-            <Search>
-              <SearchIconWrapper>
-                <SearchIcon />
-              </SearchIconWrapper>
-              <StyledInputBase
-                onChange={(e) => setKeyword(e.target.value)}
-                placeholder="Search..."
-                inputProps={{ "aria-label": "search" }}
-              />
-            </Search>
-            <MenuIcon onClick={handleClick} />
+          <IconButton
+            color="inherit"
+            onClick={handleDrawer}
+            edge="start"
+            className={classes.menuButton && classes.hide}
+          >
+            <MenuIcon />
+          </IconButton>
+          <Search>
+            <SearchIconWrapper>
+              <SearchIcon />
+            </SearchIconWrapper>
+            <StyledInputBase
+              onChange={(e) => setKeyword(e.target.value)}
+              placeholder="Search..."
+              inputProps={{ "aria-label": "search" }}
+            />
+          </Search>
 
-            <Menu
-              id="fade-menu"
-              MenuListProps={{
-                "aria-labelledby": "fade-button",
-              }}
-              anchorEl={anchorEl}
-              open={open}
+          <Drawer
+            onBackdropClick={handleDrawer}
+            classes={{ paper: classes.paper }}
+            sx={{
+              width: "70vw",
+              flexShrink: 0,
+              "& .MuiDrawer-paper": {
+                background: theme.palette.background.paper,
+                width: "70vw",
+                boxSizing: "border-box",
+              },
+            }}
+            anchor="left"
+            open={open}
           >
             <Link to="/Crypto/" style={{ textDecoration: "none" }}>
               <div
@@ -149,12 +159,18 @@ const useStyles = makeStyles((theme) => ({
                   color="textSecondary"
                   variant="h5"
                   style={{ textDecoration: "none" }}
-            >
+                >
                   ryptoTracker
                 </Typography>
               </div>
             </Link>
-                >
+            <List
+              style={{
+                display: "flex",
+                flexFlow: "column nowrap",
+                flex: 1,
+              }}
+            >
               <Divider className={classes.divider} variant="middle" />
               <Link to="/Crypto/favorites" style={{ textDecoration: "none" }}>
                 <ListItem button onClick={handleDrawer}>
@@ -162,10 +178,11 @@ const useStyles = makeStyles((theme) => ({
                     <FavoriteIcon />
                   </ListItemIcon>
                   <Typography color="textSecondary" variant="h5">
-                  Favorites
+                    Favorites
                   </Typography>
                 </ListItem>
-                </Link>
+              </Link>
+
               <ListItem button style={{ marginTop: "auto" }}>
                 <ListItemIcon>
                   <ModeNightIcon />
@@ -178,6 +195,8 @@ const useStyles = makeStyles((theme) => ({
                   {`${darkMode ? "Light Mode" : "Dark Mode"}`}
                 </Typography>
               </ListItem>
+            </List>
+          </Drawer>
         </Toolbar>
       )}
     </AppBar>
@@ -185,5 +204,4 @@ const useStyles = makeStyles((theme) => ({
 };
 
 export const SearchContext = createContext();
-export const DarkContext = createContext();
 export default Navbar;

@@ -1,3 +1,4 @@
+import Navbar, { SearchContext } from "./components/NavBar";
 import { useState, useReducer, createContext } from "react";
 import PageRoute from "./components/DataTable/PageRoute";
 import { FavoriteContext } from "./components/DataTable/DataTable";
@@ -72,13 +73,10 @@ function App() {
               <PageRoute
                 onChangeRowsPerPage={setRowsPerPage}
                 rowsPerPage={rowsPerPage}
-                coins={posts}
+              coins={search === "" ? coins : allCoins}
                 search={search}
-                favorite={favorite}
-                changePage={setPage}
-                page={page}
               />
-      </FavoriteContext.Provider>
+          </PageContext.Provider>
           </ThemeProvider>
         )}
       {isLoading && (
