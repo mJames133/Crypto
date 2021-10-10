@@ -6,8 +6,7 @@ import {
   Typography,
   Button,
 } from "@material-ui/core";
-import { styled, alpha } from "@mui/material/styles";
-import Logo from "../assets/logo.png";
+import Logo from "../assets/logo";
 import { Link } from "react-router-dom";
 import SearchBar from "./SearchBar";
 import { isMobile } from "react-device-detect";
@@ -24,8 +23,11 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     display: "flex",
   },
-  logoImg: {
-    maxWidth: 50,
+
+  logo: {
+    fill: theme.palette.primary.main,
+  },
+
     display: "flex",
     alignItems: "center",
   },
@@ -72,6 +74,7 @@ const useStyles = makeStyles((theme) => ({
       {!isMobile && (
         <Toolbar>
               <Link to="/Crypto/" onClick={() => props.changePage(0)}>
+                <Logo fill="#fff" />
             </Link>
           </Typography>
           <SearchBar
@@ -109,12 +112,26 @@ const useStyles = makeStyles((theme) => ({
               }}
               anchorEl={anchorEl}
               open={open}
-              onClose={handleClose}
+          >
+            <Link to="/Crypto/" style={{ textDecoration: "none" }}>
+              <div
+                style={{
+                  paddingTop: 5,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <SvgIcon component={Logo} fill={theme.palette.text.primary} />
+                <Typography
+                  color="textSecondary"
+                  variant="h5"
+                  style={{ textDecoration: "none" }}
             >
-              <MenuItem>
-                <Link
-                  to="/Crypto/favorites"
-                  style={{ textDecoration: "none", color: "#000" }}
+                  ryptoTracker
+                </Typography>
+              </div>
+            </Link>
                 >
                   Favorites
                 </Link>
