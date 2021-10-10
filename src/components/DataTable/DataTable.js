@@ -1,4 +1,4 @@
-import React, { useState, useEffect, createContext, useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   Table,
   Grid,
@@ -16,6 +16,7 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import useStyles from "./DataTableStyles";
 import { numberWithCommas } from "../helpers";
+import { useHistory } from "react-router-dom";
 import { PageContext } from "../../App";
 
 const DataTable = (props) => {
@@ -23,9 +24,6 @@ const DataTable = (props) => {
 
   const { page, setPage } = useContext(PageContext);
   const [selected, setSelected] = useState(storedFavorites || []);
-
-  if (props.favorites && selected.length < props.rowsPerPage)
-    props.pageChanges(0);
 
   const filteredCoins = props.coins.filter(
     (coin) =>
@@ -48,6 +46,10 @@ const DataTable = (props) => {
     } else {
       setSelected([]);
     }
+  };
+  const history = useHistory();
+  const handleRowClick = (row) => {
+    history.push(`/Crypto/coins/${row.id}`);
   };
 
   const handleClick = async (value) => {
@@ -102,7 +104,11 @@ const DataTable = (props) => {
         <TableBody>
           {filteredCoins.map((row, index) => {
               return (
-                <TableRow key={index} className={classes.rowStyle}>
+                <TableRow
+                  onClick={() => handleRowClick(row)}
+                  key={index}
+                  className={classes.rowStyle}
+                >
                   <TableCell padding="checkbox">
                     <Checkbox
                       className="selectCheckbox"
@@ -115,6 +121,7 @@ const DataTable = (props) => {
                           : false
                       }
                       onChange={() => handleClick(row)}
+                      onClick={(event) => event.stopPropagation()}
                     />
                   </TableCell>
                   <TableCell className={classes.text}>
@@ -129,13 +136,11 @@ const DataTable = (props) => {
                           src={row.image}
                           alt="Coin Logo"
                         ></img>
-
                       <Typography color="textPrimary">{row.name}</Typography>
                         <Typography className={classes.symbol}>
                           {row.symbol.toUpperCase()}
                         </Typography>
                       </Grid>
-                    </Link>
                   </TableCell>
                   <TableCell>
                   <Typography>
@@ -182,5 +187,4 @@ const DataTable = (props) => {
     </TableContainer>
   );
 };
-export const FavoriteContext = createContext();
 export default DataTable;

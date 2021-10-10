@@ -89,7 +89,16 @@ const useStyles = makeStyles((theme) => ({
               <Link to="/Crypto/" onClick={() => props.changePage(0)}>
                 <Logo fill="#fff" />
             </Link>
+
+              <Link
+                to="/Crypto/favorites"
+                style={{ textDecoration: "none", marginLeft: 20 }}
+              >
+                <Typography className={classes.text} variant="h6">
+                  FAVORITES
           </Typography>
+              </Link>
+            </div>
           <SearchBar
             className={classes.searchbar}
             onChange={(e) => setKeyword(e)}
@@ -146,7 +155,16 @@ const useStyles = makeStyles((theme) => ({
               </div>
             </Link>
                 >
+              <Divider className={classes.divider} variant="middle" />
+              <Link to="/Crypto/favorites" style={{ textDecoration: "none" }}>
+                <ListItem button onClick={handleDrawer}>
+                  <ListItemIcon>
+                    <FavoriteIcon />
+                  </ListItemIcon>
+                  <Typography color="textSecondary" variant="h5">
                   Favorites
+                  </Typography>
+                </ListItem>
                 </Link>
               <ListItem button style={{ marginTop: "auto" }}>
                 <ListItemIcon>
