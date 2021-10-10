@@ -95,9 +95,7 @@ const Navbar = ({ changePage }) => {
     <AppBar position="static">
       {!isMobile && (
         <Toolbar>
-          <Typography variant="h4" className={classes.root}>
-            <Link to="/Crypto/" onClick={() => changePage(0)}>
-              <img src={Logo} alt="Logo" className={classes.logoImg} />
+              <Link to="/Crypto/" onClick={() => props.changePage(0)}>
             </Link>
           </Typography>
           <SearchBar

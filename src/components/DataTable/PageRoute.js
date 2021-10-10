@@ -1,19 +1,20 @@
+import { useState } from "react";
 import DataTable from "./DataTable";
 import { Route, Switch } from "react-router";
 import Crypto from "../CryptoPage/Crypto";
-
 const storedFavorites = JSON.parse(localStorage.getItem("Favorites"));
 
 const PageRoute = (props) => {
+  const [favorites, setFavorites] = useState([]);
+
   return (
     <Switch>
       <Route path="/Crypto/favorites">
         <DataTable
-          coins={props.favorite || storedFavorites}
+          coins={favorites || storedFavorites}
           search={props.search}
-          pageChanges={props.changePage}
           favorites={true}
-          page={props.page}
+          setFavorites={setFavorites}
           onChangeRowsPerPage={props.onChangeRowsPerPage}
           rowsPerPage={props.rowsPerPage}
         />
@@ -21,10 +22,9 @@ const PageRoute = (props) => {
       <Route path="/Crypto/" exact>
         <DataTable
           coins={props.coins}
+          setFavorites={setFavorites}
           search={props.search}
-          pageChanges={props.changePage}
           favorites={false}
-          page={props.page}
           onChangeRowsPerPage={props.onChangeRowsPerPage}
           rowsPerPage={props.rowsPerPage}
         />

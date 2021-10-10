@@ -6,7 +6,7 @@ export const api = createApi({
   }),
   endpoints: (builder) => ({
     listPosts: builder.query({
-      query: (page = 1, limit = 20) =>
+      query: ({ page, limit }) =>
         `?vs_currency=usd&order=market_cap_desc&per_page=${limit}&page=${page}&sparkline=false`,
     }),
   }),

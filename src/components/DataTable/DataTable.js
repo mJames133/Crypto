@@ -15,12 +15,12 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import useStyles from "./DataTableStyles";
 import { numberWithCommas } from "../helpers";
-import { Link } from "react-router-dom";
+import { PageContext } from "../../App";
 
 const DataTable = (props) => {
-  const setFavorite = useContext(FavoriteContext);
   const storedFavorites = JSON.parse(localStorage.getItem("Favorites"));
 
+  const { page, setPage } = useContext(PageContext);
   const [selected, setSelected] = useState(storedFavorites || []);
 
   if (props.favorites && selected.length < props.rowsPerPage)
@@ -33,12 +33,12 @@ const DataTable = (props) => {
   );
 
   const handleChangePage = (event, newPage) => {
-    props.pageChanges(newPage);
+    setPage(newPage);
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
   const handleChangeRowsPerPage = (event) => {
     props.onChangeRowsPerPage(+event.target.value);
-    props.pageChanges(0);
+    setPage(0);
   };
 
   const handleSelectAllClick = (event) => {
@@ -60,8 +60,11 @@ const DataTable = (props) => {
     localStorage.setItem("Favorites", JSON.stringify(selected));
   }, [selected]);
   useEffect(() => {
-    setFavorite(selected);
-  }, [setFavorite, selected]);
+    props.setFavorites(selected);
+  }, [props, selected]);
+  useEffect(() => {
+    if (props.favorites && selected.length < props.rowsPerPage) setPage(0);
+  }, [props, setPage, selected]);
 
   const classes = useStyles();
   return (
@@ -114,11 +117,10 @@ const DataTable = (props) => {
                   </TableCell>
                   <TableCell className={classes.text}>
                     <Typography color="textSecondary" variant="body2">
-                    {index + 1 + props.rowsPerPage * props.page}
+                      {index + 1 + props.rowsPerPage * page}
                     </Typography>
                   </TableCell>
                   <TableCell>
-                  <Link to={`/Crypto/coins/${row.id}`} className={classes.link}>
                       <Grid container className={classes.grid}>
                         <img
                           className={classes.image}
@@ -162,13 +164,17 @@ const DataTable = (props) => {
           select: classes.tablePaginationSelect,
           actions: classes.tablePaginationActions,
         }}
-        rowsPerPageOptions={[10, 15, 20, 25, 30]}
+          rowsPerPageOptions={[10, 15, 20, 30]}
         component="div"
         count={100}
         rowsPerPage={+props.rowsPerPage}
-        page={props.page}
+          page={page}
         onPageChange={handleChangePage}
         onRowsPerPageChange={handleChangeRowsPerPage}
+          SelectProps={{
+            inputProps: { "aria-label": "rows per page" },
+            native: true,
+          }}
       />
     </TableContainer>
   );
