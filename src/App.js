@@ -1,7 +1,6 @@
 import Navbar, { SearchContext } from "./components/NavBar";
 import { useState, useReducer, createContext } from "react";
 import PageRoute from "./components/DataTable/PageRoute";
-import { FavoriteContext } from "./components/DataTable/DataTable";
 import { ThemeProvider } from "@material-ui/styles";
 import { createTheme, CssBaseline, makeStyles } from "@material-ui/core";
 import { useListPostsQuery } from "./components/data";
@@ -52,8 +51,6 @@ function App() {
 
   const [state, dispatch] = useReducer(themeReducer, initialState);
   const [search, setSearch] = useState("");
-  const [favorite, setFavorite] = useState([]);
-  const [dark, setDark] = useState(false);
 
   const darkTheme = createTheme({
     palette: {
