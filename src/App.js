@@ -4,6 +4,8 @@ import { FavoriteContext } from "./components/DataTable/DataTable";
 import { ThemeProvider } from "@material-ui/styles";
 import { createTheme, CssBaseline, makeStyles } from "@material-ui/core";
 import { useListPostsQuery } from "./components/data";
+import CircularProgress from "@mui/material/CircularProgress";
+
 export const ThemeContext = createContext();
 export const PageContext = createContext();
 
@@ -21,7 +23,20 @@ const themeReducer = (state, action) => {
       return state;
   }
 };
+
+const useStyles = makeStyles((theme) => ({
+  loading: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    fontSize: "30px",
+  },
+  loadingText: { paddingLeft: 20 },
+}));
+
 function App() {
+  const classes = useStyles();
+
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(20);
   const { data: coins, isLoading } = useListPostsQuery({
@@ -67,7 +82,10 @@ function App() {
           </ThemeProvider>
         )}
       {isLoading && (
-        <p style={{ textAlign: "center", fontSize: "30px" }}>Loading...</p>
+        <div className={classes.loading}>
+          <CircularProgress disableShrink />
+          <p className={classes.loadingText}>Loading...</p>
+        </div>
       )}
     </ThemeContext.Provider>
   );
