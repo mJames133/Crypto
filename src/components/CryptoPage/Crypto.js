@@ -10,6 +10,7 @@ import {
 } from "@material-ui/core";
 import { numberWithCommas } from "../helpers";
 import CryptoChart from "./CryptoChart";
+import CryptoNews from "./CryptoNews";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -115,6 +116,7 @@ const Crypto = () => {
           </div>
 
           <CryptoChart coin={params.coinId} />
+            <CryptoNews coin={params.coinId} />
         </div>
       )}
     </div>
