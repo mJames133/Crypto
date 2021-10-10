@@ -9,6 +9,7 @@ import {
   TableRow,
   Typography,
   Checkbox,
+  Container,
 } from "@material-ui/core";
 import { TablePagination } from "@mui/material";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
@@ -69,6 +70,7 @@ const DataTable = (props) => {
   const classes = useStyles();
   return (
     <TableContainer className={classes.tableContainer}>
+      <Container fixed>
       <Table>
         <TableHead>
           <TableRow>
@@ -176,6 +178,7 @@ const DataTable = (props) => {
             native: true,
           }}
       />
+      </Container>
     </TableContainer>
   );
 };

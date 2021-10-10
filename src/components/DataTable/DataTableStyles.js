@@ -6,6 +6,10 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 20,
   },
   tableContainer: {
+    margin: "0 24px",
+    [theme.breakpoints.down("md")]: {
+      margin: 0,
+    },
     marginTop: 30,
   },
   name: {
@@ -24,17 +28,17 @@ const useStyles = makeStyles((theme) => ({
   },
 
   grid: {
+    flexWrap: "nowrap",
     alignItems: "center",
   },
-  link: {
-    textDecoration: "none",
-  },
+
   pagination: {
     display: "flex",
     justifyContent: "center",
-    padding: "10px 0",
   },
   rowStyle: {
+    cursor: "pointer",
+    textDecoration: "none",
     "&:hover": {
       backgroundColor: theme.palette.action.hover,
     },

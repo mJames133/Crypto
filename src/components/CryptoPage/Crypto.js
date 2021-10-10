@@ -7,6 +7,7 @@ import {
   Card,
   CardContent,
   Grid,
+  Container,
 } from "@material-ui/core";
 import { numberWithCommas } from "../helpers";
 import CryptoChart from "./CryptoChart";
@@ -14,8 +15,12 @@ import CryptoNews from "./CryptoNews";
 
 const useStyles = makeStyles((theme) => ({
   root: {
+    margin: "30px 0px",
+    [theme.breakpoints.up("md")]: {
     margin: 30,
   },
+  },
+
   name: {
     fontFamily: "Roboto",
     fontWeight: 600,
@@ -26,6 +31,13 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     alignItems: "center",
     margin: "15px 0",
+  },
+
+  cardContent: {
+    width: "calc(100vw - 10vw)",
+    [theme.breakpoints.up("md")]: {
+      width: "20vw",
+    },
   },
 }));
 
@@ -54,6 +66,7 @@ const Crypto = () => {
 
   return (
     <div className={classes.root}>
+      <Container fixed>
       {!isLoading && (
         <div>
           <Box
@@ -119,6 +132,7 @@ const Crypto = () => {
             <CryptoNews coin={params.coinId} />
         </div>
       )}
+      </Container>
     </div>
   );
 };

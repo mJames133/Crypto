@@ -4,18 +4,31 @@ import {
   AppBar,
   Toolbar,
   Typography,
-  Button,
+  Container,
+  ListItem,
+  ListItemIcon,
+  List,
+  IconButton,
+  SvgIcon,
 } from "@material-ui/core";
 import Logo from "../assets/logo";
 import { Link } from "react-router-dom";
 import SearchBar from "./SearchBar";
 import { isMobile } from "react-device-detect";
-import { Switch, InputBase, MenuItem, Menu } from "@mui/material";
-import MenuIcon from "@mui/icons-material/Menu";
+import { Drawer } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
+import MenuIcon from "@mui/icons-material/Menu";
 import { useTheme } from "@material-ui/core/styles";
 import { ThemeContext } from "../App";
+import Divider from "@mui/material/Divider";
 import ModeNightIcon from "@mui/icons-material/ModeNight";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import {
+  MUISwitch,
+  Search,
+  SearchIconWrapper,
+  StyledInputBase,
+} from "./CustomIcons";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -28,29 +41,29 @@ const useStyles = makeStyles((theme) => ({
     fill: theme.palette.primary.main,
   },
 
-    display: "flex",
-    alignItems: "center",
-  },
-  searchbar: {
-    marginRight: 30,
-  },
-  button: {
-    color: "#fff",
-  },
-  mobileLogo: {
-    maxWidth: 35,
-  },
   tools: {
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
   },
-  list: {
-    display: "flex",
-    alignItems: "center",
+
+  text: {
+    marginLeft: 10,
+    color: "#fff",
+    "&:hover": {
+      color: "#999",
+  },
+  },
+  searchbar: {
+    marginRight: 30,
+  },
+
+  divider: {
+    background: theme.palette.action.selected,
   },
 }));
 
+  const classes = useStyles();
   const [open, setOpen] = useState(false);
   const theme = useTheme();
 
