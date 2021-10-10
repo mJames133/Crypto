@@ -14,36 +14,9 @@ import { isMobile } from "react-device-detect";
 import { Switch, InputBase, MenuItem, Menu } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
-
-const Search = styled("div")(({ theme }) => ({
-  position: "relative",
-  borderRadius: theme.shape.borderRadius,
-  backgroundColor: alpha(theme.palette.common.white, 0.15),
-  "&:hover": {
-    backgroundColor: alpha(theme.palette.common.white, 0.25),
-  },
-  marginRight: theme.spacing(2),
-  width: 150,
-}));
-
-const SearchIconWrapper = styled("div")(({ theme }) => ({
-  padding: theme.spacing(0, 2),
-  height: "100%",
-  position: "absolute",
-  pointerEvents: "none",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-}));
-
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: "inherit",
-  "& .MuiInputBase-input": {
-    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-    transition: theme.transitions.create("width"),
-    width: "100%",
-  },
-}));
+import { useTheme } from "@material-ui/core/styles";
+import { ThemeContext } from "../App";
+import ModeNightIcon from "@mui/icons-material/ModeNight";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -76,12 +49,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Navbar = ({ changePage }) => {
-  const [anchorEl, setAnchorEl] = useState(null);
+  const [open, setOpen] = useState(false);
+  const theme = useTheme();
 
-  const open = Boolean(anchorEl);
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
+  const dark = useContext(ThemeContext);
+  const darkMode = dark.state.darkMode;
+
+  const darkModeSwitchHandler = () => {
+    if (darkMode) dark.dispatch({ type: "LIGHTMODE" });
+    else dark.dispatch({ type: "DARKMODE" });
   };
 
   const handleClose = () => {
@@ -104,11 +80,7 @@ const Navbar = ({ changePage }) => {
             onRequestSearch={(e) => setKeyword(e)}
             onCancelSearch={(e) => setKeyword(e || "")}
           />
-
-          <Link to="/Crypto/favorites" style={{ textDecoration: "none" }}>
-            <Button className={classes.button}>Favourites</Button>
-          </Link>
-          <Switch onChange={(e) => setDark(e.target.checked)} />
+            <MUISwitch onChange={darkModeSwitchHandler} />
         </Toolbar>
       )}
       {isMobile && (
@@ -146,9 +118,18 @@ const Navbar = ({ changePage }) => {
                 >
                   Favorites
                 </Link>
-              </MenuItem>
-            </Menu>
-          </ul>
+              <ListItem button style={{ marginTop: "auto" }}>
+                <ListItemIcon>
+                  <ModeNightIcon />
+                </ListItemIcon>
+                <Typography
+                  color="textSecondary"
+                  variant="h5"
+                  onClick={darkModeSwitchHandler}
+                >
+                  {`${darkMode ? "Light Mode" : "Dark Mode"}`}
+                </Typography>
+              </ListItem>
         </Toolbar>
       )}
     </AppBar>

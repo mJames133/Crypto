@@ -1,13 +1,26 @@
-import Navbar from "./components/NavBar";
-import { useState } from "react";
-import { SearchContext, DarkContext } from "./components/NavBar";
+import { useState, useReducer, createContext } from "react";
 import PageRoute from "./components/DataTable/PageRoute";
 import { FavoriteContext } from "./components/DataTable/DataTable";
 import { ThemeProvider } from "@material-ui/styles";
-import { createTheme, Container, CssBaseline } from "@material-ui/core";
+import { createTheme, CssBaseline, makeStyles } from "@material-ui/core";
 import { useListPostsQuery } from "./components/data";
+export const ThemeContext = createContext();
 export const PageContext = createContext();
 
+const initialState = {
+  darkMode: false,
+};
+
+const themeReducer = (state, action) => {
+  switch (action.type) {
+    case "LIGHTMODE":
+      return { darkMode: false };
+    case "DARKMODE":
+      return { darkMode: true };
+    default:
+      return state;
+  }
+};
 function App() {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(20);
@@ -20,19 +33,20 @@ function App() {
     page: page + 1,
     limit: 100,
   });
+
+  const [state, dispatch] = useReducer(themeReducer, initialState);
   const [search, setSearch] = useState("");
   const [favorite, setFavorite] = useState([]);
   const [dark, setDark] = useState(false);
 
   const darkTheme = createTheme({
     palette: {
-      type: dark ? "dark" : "light",
+      type: state.darkMode ? "dark" : "light",
     },
   });
 
   return (
-    <DarkContext.Provider value={setDark}>
-    <Container fixed>
+    <ThemeContext.Provider value={{ state, dispatch }}>
         {!isLoading && (
           <ThemeProvider theme={darkTheme}>
             <CssBaseline />
@@ -55,8 +69,7 @@ function App() {
       {isLoading && (
         <p style={{ textAlign: "center", fontSize: "30px" }}>Loading...</p>
       )}
-    </Container>
-    </DarkContext.Provider>
+    </ThemeContext.Provider>
   );
 }
 
