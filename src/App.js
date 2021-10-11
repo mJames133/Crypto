@@ -10,10 +10,11 @@ export const ThemeContext = createContext();
 export const PageContext = createContext();
 
 const initialState = {
-  darkMode: false,
+  darkMode: localStorage.getItem("DarkMode") === "Light" ? true : false,
 };
 
 const themeReducer = (state, action) => {
+  window.localStorage.setItem("DarkMode", !state.darkMode ? "Light" : "Dark");
   switch (action.type) {
     case "LIGHTMODE":
       return { darkMode: false };
