@@ -5,6 +5,7 @@ import { ThemeProvider } from "@material-ui/styles";
 import { createTheme, CssBaseline, makeStyles } from "@material-ui/core";
 import { useListPostsQuery } from "./components/data";
 import CircularProgress from "@mui/material/CircularProgress";
+import Footer from "./components/Footer";
 
 export const ThemeContext = createContext();
 export const PageContext = createContext();
@@ -76,7 +77,8 @@ function App() {
                 search={search}
               />
           </PageContext.Provider>
-          </ThemeProvider>
+            <Footer />
+          </div>
         )}
       {isLoading && (
         <div className={classes.loading}>
@@ -84,6 +86,7 @@ function App() {
           <p className={classes.loadingText}>Loading...</p>
         </div>
       )}
+      </ThemeProvider>
     </ThemeContext.Provider>
   );
 }
