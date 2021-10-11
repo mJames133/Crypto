@@ -61,9 +61,10 @@ function App() {
 
   return (
     <ThemeContext.Provider value={{ state, dispatch }}>
-        {!isLoading && (
           <ThemeProvider theme={darkTheme}>
             <CssBaseline />
+        {!isLoading && (
+          <div>
       <SearchContext.Provider value={setSearch}>
             <Navbar search={search} changePage={setPage} />
       </SearchContext.Provider>

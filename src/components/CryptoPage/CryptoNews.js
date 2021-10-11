@@ -9,32 +9,24 @@ import {
 } from "@material-ui/core";
 import PlaceHolderImg from "../../assets/placeholder.jpg";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
+import { makeStyles } from "@material-ui/core";
+import CircularProgress from "@mui/material/CircularProgress";
+import { useSearchNewsQuery } from "../data";
+
+const useStyles = makeStyles((theme) => ({
+  loading: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    fontSize: "30px",
+  },
+  loadingText: { paddingLeft: 20 },
+}));
 
 const CryptoNews = (props) => {
+  const classes = useStyles();
   const largeScreen = useMediaQuery((theme) => theme.breakpoints.up("md"));
-
-  const [coinNews, setCoinNews] = useState([]);
-  const [isLoading, setIsLoadingx] = useState(false);
-
-  const proxyUrl = "https://cors-anywhere.herokuapp.com/";
-  const API_KEY = "pub_167797c3a120618142b43287493edee39ed1";
-
-  const getData = useCallback(async () => {
-    setIsLoadingx(true);
-    const res = await fetch(
-      `${proxyUrl}https://newsdata.io/api/1/news?apikey=${API_KEY}&q=${props.coin}&language=en`
-    );
-
-    const data = await res.json();
-    setCoinNews(() => {
-      setIsLoadingx(false);
-      return data;
-    });
-  }, [props]);
-
-  useEffect(() => {
-    getData();
-  }, [getData]);
+  const { data, isLoading } = useSearchNewsQuery(props.coin);
 
   return (
     <div>
@@ -46,12 +38,19 @@ const CryptoNews = (props) => {
           >
             Latest mentions
           </Typography>
+          {data.totalResults < 1 ? (
+            <Typography variant="h5" style={{ textAlign: "center" }}>
+              No news found!
+            </Typography>
+          ) : (
+            ""
+          )}
           <Grid
             container
             spacing={4}
             direction={largeScreen ? "row" : "column"}
           >
-            {coinNews.results?.slice(0, 25).map((row, index) => {
+            {data.results?.slice(0, 25).map((row, index) => {
               return (
                 <Grid item xs={12} md={4} key={index}>
                   <Card>
