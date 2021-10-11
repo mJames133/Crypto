@@ -23,6 +23,7 @@ import { ThemeContext } from "../App";
 import Divider from "@mui/material/Divider";
 import ModeNightIcon from "@mui/icons-material/ModeNight";
 import FavoriteIcon from "@mui/icons-material/Favorite";
+import { useLocation } from "react-router";
 import {
   MUISwitch,
   Search,
@@ -64,6 +65,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Navbar = (props) => {
+  const location = useLocation();
   const setKeyword = useContext(SearchContext);
   const classes = useStyles();
   const [open, setOpen] = useState(false);
@@ -100,12 +102,20 @@ const Navbar = (props) => {
                 </Typography>
               </Link>
             </div>
-            <SearchBar
-              className={classes.searchbar}
-              onChange={(e) => setKeyword(e)}
-              onCancelSearch={(e) => setKeyword(e || "")}
+            {location.pathname.startsWith("/Crypto/coins") ? (
+              ""
+            ) : (
+              <SearchBar
+                className={classes.searchbar}
+                onChange={(e) => setKeyword(e)}
+                onCancelSearch={(e) => setKeyword(e || "")}
+              />
+            )}
+
+            <MUISwitch
+              onChange={darkModeSwitchHandler}
+              checked={Boolean(darkMode)}
             />
-            <MUISwitch onChange={darkModeSwitchHandler} />
           </Toolbar>
         </Container>
       )}
