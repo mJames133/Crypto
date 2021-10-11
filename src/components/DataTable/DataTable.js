@@ -164,12 +164,15 @@ const DataTable = (props) => {
       </Table>
       <TablePagination
         className={classes.pagination}
+          labelRowsPerPage="Rows"
         classes={{
           selectLabel: classes.tablePagination,
           displayedRows: classes.tablePaginationDisplayedRows,
           selectIcon: classes.tablePaginationSelectIcon,
           select: classes.tablePaginationSelect,
+            input: classes.tablePaginationInput,
           actions: classes.tablePaginationActions,
+            paper: classes.selectDropdown,
         }}
           rowsPerPageOptions={[10, 15, 20, 30]}
         component="div"
@@ -178,8 +181,10 @@ const DataTable = (props) => {
           page={page}
         onPageChange={handleChangePage}
         onRowsPerPageChange={handleChangeRowsPerPage}
+          backIconButtonProps={{
+            style: { color: page === 0 ? "#b5b8c4" : "" },
+          }}
           SelectProps={{
-            inputProps: { "aria-label": "rows per page" },
             native: true,
           }}
       />

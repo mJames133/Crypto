@@ -1,4 +1,3 @@
-import { useCallback, useState, useEffect } from "react";
 import {
   Grid,
   Typography,
@@ -86,6 +85,12 @@ const CryptoNews = (props) => {
               );
             })}
           </Grid>
+        </div>
+      )}
+      {isLoading && (
+        <div className={classes.loading}>
+          <CircularProgress disableShrink />
+          <p className={classes.loadingText}>Loading...</p>
         </div>
       )}
     </div>

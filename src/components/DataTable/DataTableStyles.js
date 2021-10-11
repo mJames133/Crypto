@@ -6,7 +6,6 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 20,
   },
   tableContainer: {
-    margin: "0 24px",
     [theme.breakpoints.down("md")]: {
       margin: 0,
     },
@@ -43,7 +42,6 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: theme.palette.action.hover,
     },
   },
-
   tablePagination: {
     color: theme.palette.text.primary,
   },
@@ -51,13 +49,24 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.text.primary,
   },
   tablePaginationSelectIcon: {
-    color: theme.palette.text.primary,
+    fillRule: theme.palette.text.primary,
   },
   tablePaginationSelect: {
     color: theme.palette.text.primary,
   },
   tablePaginationActions: {
     color: theme.palette.text.primary,
+  },
+  tablePaginationInput: {
+    "& .MuiTablePagination-selectIcon": {
+      fill: theme.palette.text.primary,
+    },
+    "& .MuiTablePagination-select": {
+      "& option": {
+        color: "black",
+      },
+      color: theme.palette.text.primary,
+    },
   },
 }));
 
