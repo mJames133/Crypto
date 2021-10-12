@@ -6,10 +6,10 @@
   "theme_color": "#000000",
   "background_color": "#ffffff",
   "icons": [
-        {
-            "src": "logo_black.svg",
-            "purpose": "maskable any",
-            "sizes": "any"
-        }
+      {
+          "src": "logo_black.svg",
+          "purpose": "maskable any",
+          "sizes": "any"
+      }
     ]
 }
