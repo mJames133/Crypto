@@ -9,7 +9,9 @@
       {
           "src": "logo_black.svg",
           "purpose": "maskable any",
-          "sizes": "any"
+          "sizes": "any",
+          "type": "image/svg+xml"
+
       }
     ]
 }
