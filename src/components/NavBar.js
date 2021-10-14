@@ -23,6 +23,7 @@ import { ThemeContext } from "../App";
 import Divider from "@mui/material/Divider";
 import ModeNightIcon from "@mui/icons-material/ModeNight";
 import FavoriteIcon from "@mui/icons-material/Favorite";
+import SettingsIcon from "@mui/icons-material/Settings";
 import { useLocation } from "react-router";
 import {
   MUISwitch,
@@ -102,7 +103,8 @@ const Navbar = (props) => {
                 </Typography>
               </Link>
             </div>
-            {location.pathname.startsWith("/Crypto/coins") ? (
+            {location.pathname.startsWith("/Crypto/coins") ||
+            location.pathname.startsWith("/Crypto/settings") ? (
               ""
             ) : (
               <SearchBar
@@ -116,6 +118,17 @@ const Navbar = (props) => {
               onChange={darkModeSwitchHandler}
               checked={Boolean(darkMode)}
             />
+            <Link
+              to="/Crypto/settings"
+              style={{
+                marginLeft: 10,
+                color: "white",
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
+              <SettingsIcon style={{ fontSize: 30 }} />
+            </Link>
           </Toolbar>
         </Container>
       )}
@@ -129,16 +142,21 @@ const Navbar = (props) => {
           >
             <MenuIcon />
           </IconButton>
-          <Search>
-            <SearchIconWrapper>
-              <SearchIcon />
-            </SearchIconWrapper>
-            <StyledInputBase
-              onChange={(e) => setKeyword(e.target.value)}
-              placeholder="Search..."
-              inputProps={{ "aria-label": "search" }}
-            />
-          </Search>
+          {location.pathname.startsWith("/Crypto/coins") ||
+          location.pathname.startsWith("/Crypto/settings") ? (
+            ""
+          ) : (
+            <Search>
+              <SearchIconWrapper>
+                <SearchIcon />
+              </SearchIconWrapper>
+              <StyledInputBase
+                onChange={(e) => setKeyword(e.target.value)}
+                placeholder="Search..."
+                inputProps={{ "aria-label": "search" }}
+              />
+            </Search>
+          )}
 
           <Drawer
             onBackdropClick={handleDrawer}
@@ -189,6 +207,16 @@ const Navbar = (props) => {
                   </ListItemIcon>
                   <Typography color="textSecondary" variant="h5">
                     Favorites
+                  </Typography>
+                </ListItem>
+              </Link>
+              <Link to="/Crypto/settings" style={{ textDecoration: "none" }}>
+                <ListItem button onClick={handleDrawer}>
+                  <ListItemIcon>
+                    <SettingsIcon />
+                  </ListItemIcon>
+                  <Typography color="textSecondary" variant="h5">
+                    Settings
                   </Typography>
                 </ListItem>
               </Link>

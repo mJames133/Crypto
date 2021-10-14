@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Crypto = () => {
+const Crypto = (props) => {
   const params = useParams();
   const { data, isLoading } = useCoinDataQuery(params);
   const classes = useStyles();
@@ -111,7 +111,7 @@ const Crypto = () => {
             </div>
 
             <CryptoChart coin={params.coinId} />
-            <CryptoNews coin={params.coinId} />
+            <CryptoNews coin={params.coinId} newsData={props.dataNews} />
           </div>
         )}
       </Container>

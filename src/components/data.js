@@ -1,5 +1,9 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
+const newsDataApi_Key = localStorage.getItem("newsData");
+
+const proxyUrl = "https://cors-anywhere.herokuapp.com/";
+
 export const dataListApi = createApi({
   reducerPath: "dataList",
   baseQuery: fetchBaseQuery({
@@ -15,9 +19,6 @@ export const dataListApi = createApi({
 
 export const { useListPostsQuery } = dataListApi;
 
-const proxyUrl = "https://cors-anywhere.herokuapp.com/";
-const API_KEY = "pub_167797c3a120618142b43287493edee39ed1";
-
 export const newsDataApi = createApi({
   reducerPath: "newsData",
   baseQuery: fetchBaseQuery({
@@ -26,7 +27,9 @@ export const newsDataApi = createApi({
   endpoints: (builder) => ({
     searchNews: builder.query({
       query: (props) =>
-        `${proxyUrl}https://newsdata.io/api/1/news?apikey=${API_KEY}&q=${props.coin}&language=en`,
+        `${proxyUrl}https://newsdata.io/api/1/news?apikey=${
+          props.newsData || newsDataApi_Key
+        }&q=${props.coin}&language=en`,
     }),
   }),
 });

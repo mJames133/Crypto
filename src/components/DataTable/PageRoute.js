@@ -2,10 +2,12 @@ import { useState } from "react";
 import DataTable from "./DataTable";
 import { Route, Switch } from "react-router";
 import Crypto from "../CryptoPage/Crypto";
+import SettingsPage from "../settings";
 const storedFavorites = JSON.parse(localStorage.getItem("Favorites"));
 
 const PageRoute = (props) => {
   const [favorites, setFavorites] = useState([]);
+  const [newsData, setNewsData] = useState("");
 
   return (
     <Switch>
@@ -30,7 +32,10 @@ const PageRoute = (props) => {
         />
       </Route>
       <Route path="/Crypto/coins/:coinId">
-        <Crypto />
+        <Crypto dataNews={newsData} />
+      </Route>
+      <Route path="/Crypto/settings">
+        <SettingsPage setNewsData={setNewsData} dataNews={newsData} />
       </Route>
     </Switch>
   );
