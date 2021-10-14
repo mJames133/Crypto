@@ -1,20 +1,20 @@
 {
   "files": {
     "main.css": "/Crypto/static/css/main.1bc4da60.chunk.css",
-    "main.js": "/Crypto/static/js/main.e581497c.chunk.js",
-    "main.js.map": "/Crypto/static/js/main.e581497c.chunk.js.map",
+    "main.js": "/Crypto/static/js/main.a4ef6912.chunk.js",
+    "main.js.map": "/Crypto/static/js/main.a4ef6912.chunk.js.map",
     "runtime-main.js": "/Crypto/static/js/runtime-main.b3e16cae.js",
     "runtime-main.js.map": "/Crypto/static/js/runtime-main.b3e16cae.js.map",
-    "static/js/2.6305cf14.chunk.js": "/Crypto/static/js/2.6305cf14.chunk.js",
-    "static/js/2.6305cf14.chunk.js.map": "/Crypto/static/js/2.6305cf14.chunk.js.map",
+    "static/js/2.a668ba0d.chunk.js": "/Crypto/static/js/2.a668ba0d.chunk.js",
+    "static/js/2.a668ba0d.chunk.js.map": "/Crypto/static/js/2.a668ba0d.chunk.js.map",
     "index.html": "/Crypto/index.html",
     "static/css/main.1bc4da60.chunk.css.map": "/Crypto/static/css/main.1bc4da60.chunk.css.map",
-    "static/js/2.6305cf14.chunk.js.LICENSE.txt": "/Crypto/static/js/2.6305cf14.chunk.js.LICENSE.txt"
+    "static/js/2.a668ba0d.chunk.js.LICENSE.txt": "/Crypto/static/js/2.a668ba0d.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.b3e16cae.js",
-    "static/js/2.6305cf14.chunk.js",
+    "static/js/2.a668ba0d.chunk.js",
     "static/css/main.1bc4da60.chunk.css",
-    "static/js/main.e581497c.chunk.js"
+    "static/js/main.a4ef6912.chunk.js"
   ]
 }
