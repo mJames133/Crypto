@@ -71,125 +71,127 @@ const DataTable = (props) => {
 
   const classes = useStyles();
   return (
-    <TableContainer className={classes.tableContainer}>
-      <Container fixed>
-      <Table>
-        <TableHead>
-          <TableRow>
-            <TableCell padding="checkbox">
-              <Checkbox
-                className="selectCheckbox"
-                onChange={handleSelectAllClick}
-                icon={<FavoriteBorderIcon />}
-                checkedIcon={<FavoriteIcon />}
-              />
-            </TableCell>
-            <TableCell width={70} className={classes.tableHeaderCell}>
-              #
-            </TableCell>
-            <TableCell width={200} className={classes.tableHeaderCell}>
-              Name
-            </TableCell>
-            <TableCell width={200} className={classes.tableHeaderCell}>
-              Price
-            </TableCell>
-            <TableCell width={200} className={classes.tableHeaderCell}>
-              Market Cap
-            </TableCell>
-            <TableCell width={200} className={classes.tableHeaderCell}>
-              Volume (24h)
-            </TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {filteredCoins.map((row, index) => {
-              return (
-                <TableRow
-                  onClick={() => handleRowClick(row)}
-                  key={index}
-                  className={classes.rowStyle}
-                >
-                  <TableCell padding="checkbox">
-                    <Checkbox
-                      className="selectCheckbox"
-                      value={row}
-                      icon={<FavoriteBorderIcon />}
-                      checkedIcon={<FavoriteIcon />}
-                      checked={
-                        selected.find((value) => value.id === row.id)
-                          ? true
-                          : false
-                      }
-                      onChange={() => handleClick(row)}
-                      onClick={(event) => event.stopPropagation()}
-                    />
-                  </TableCell>
-                  <TableCell className={classes.text}>
-                    <Typography color="textSecondary" variant="body2">
-                      {index + 1 + props.rowsPerPage * page}
-                    </Typography>
-                  </TableCell>
-                  <TableCell>
+    <div>
+      <TableContainer className={classes.tableContainer}>
+        <Container fixed>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell padding="checkbox">
+                  <Checkbox
+                    className="selectCheckbox"
+                    onChange={handleSelectAllClick}
+                    icon={<FavoriteBorderIcon />}
+                    checkedIcon={<FavoriteIcon />}
+                  />
+                </TableCell>
+                <TableCell width={70} className={classes.tableHeaderCell}>
+                  #
+                </TableCell>
+                <TableCell width={200} className={classes.tableHeaderCell}>
+                  Name
+                </TableCell>
+                <TableCell width={200} className={classes.tableHeaderCell}>
+                  Price
+                </TableCell>
+                <TableCell width={200} className={classes.tableHeaderCell}>
+                  Market Cap
+                </TableCell>
+                <TableCell width={200} className={classes.tableHeaderCell}>
+                  Volume (24h)
+                </TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {filteredCoins.map((row, index) => {
+                return (
+                  <TableRow
+                    onClick={() => handleRowClick(row)}
+                    key={index}
+                    className={classes.rowStyle}
+                  >
+                    <TableCell padding="checkbox">
+                      <Checkbox
+                        className="selectCheckbox"
+                        value={row}
+                        icon={<FavoriteBorderIcon />}
+                        checkedIcon={<FavoriteIcon />}
+                        checked={
+                          selected.find((value) => value.id === row.id)
+                            ? true
+                            : false
+                        }
+                        onChange={() => handleClick(row)}
+                        onClick={(event) => event.stopPropagation()}
+                      />
+                    </TableCell>
+                    <TableCell className={classes.text}>
+                      <Typography color="textSecondary" variant="body2">
+                        {index + 1 + props.rowsPerPage * page}
+                      </Typography>
+                    </TableCell>
+                    <TableCell>
                       <Grid container className={classes.grid}>
                         <img
                           className={classes.image}
                           src={row.image}
                           alt="Coin Logo"
                         ></img>
-                      <Typography color="textPrimary">{row.name}</Typography>
+                        <Typography color="textPrimary">{row.name}</Typography>
                         <Typography className={classes.symbol}>
                           {row.symbol.toUpperCase()}
                         </Typography>
                       </Grid>
-                  </TableCell>
-                  <TableCell>
-                  <Typography>
-                      {`$${numberWithCommas(row.current_price.toFixed(2))}`}
-                    </Typography>
-                  </TableCell>
-                  <TableCell>
-                  <Typography>
-                    {`$${numberWithCommas(row.market_cap)}`}
-                    </Typography>
-                  </TableCell>
-                  <TableCell>
-                  <Typography>
-                    {`$${numberWithCommas(row.total_volume)}`}
-                    </Typography>
-                  </TableCell>
-                </TableRow>
-              );
-            })}
-        </TableBody>
-      </Table>
+                    </TableCell>
+                    <TableCell>
+                      <Typography>
+                        {`$${numberWithCommas(row.current_price.toFixed(2))}`}
+                      </Typography>
+                    </TableCell>
+                    <TableCell>
+                      <Typography>
+                        {`$${numberWithCommas(row.market_cap)}`}
+                      </Typography>
+                    </TableCell>
+                    <TableCell>
+                      <Typography>
+                        {`$${numberWithCommas(row.total_volume)}`}
+                      </Typography>
+                    </TableCell>
+                  </TableRow>
+                );
+              })}
+            </TableBody>
+          </Table>
+        </Container>
+      </TableContainer>
       <TablePagination
         className={classes.pagination}
-          labelRowsPerPage="Rows"
+        labelRowsPerPage="Rows"
         classes={{
           selectLabel: classes.tablePagination,
           displayedRows: classes.tablePaginationDisplayedRows,
           selectIcon: classes.tablePaginationSelectIcon,
           select: classes.tablePaginationSelect,
-            input: classes.tablePaginationInput,
+          input: classes.tablePaginationInput,
           actions: classes.tablePaginationActions,
-            paper: classes.selectDropdown,
+          paper: classes.selectDropdown,
         }}
-          rowsPerPageOptions={[10, 15, 20, 30]}
+        rowsPerPageOptions={[10, 15, 20, 30]}
         component="div"
         count={100}
         rowsPerPage={+props.rowsPerPage}
-          page={page}
+        page={page}
         onPageChange={handleChangePage}
         onRowsPerPageChange={handleChangeRowsPerPage}
-          backIconButtonProps={{
-            style: { color: page === 0 ? "#b5b8c4" : "" },
-          }}
-          SelectProps={{
-            native: true,
-          }}
+        backIconButtonProps={{
+          style: { color: page === 0 ? "#b5b8c4" : "" },
+        }}
+        SelectProps={{
+          native: true,
+        }}
       />
-      </Container>
-    </TableContainer>
+    </div>
   );
 };
 export default DataTable;
