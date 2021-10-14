@@ -3,6 +3,7 @@ import {
   Typography,
   Card,
   CardContent,
+  Link,
   CardActionArea,
   CardMedia,
 } from "@material-ui/core";
@@ -25,11 +26,11 @@ const useStyles = makeStyles((theme) => ({
 const CryptoNews = (props) => {
   const classes = useStyles();
   const largeScreen = useMediaQuery((theme) => theme.breakpoints.up("md"));
-  const { data, isLoading } = useSearchNewsQuery(props.coin);
+  const { data, isLoading, error } = useSearchNewsQuery(props);
 
   return (
     <div>
-      {!isLoading && (
+      {!isLoading && !error && (
         <div>
           <Typography
             variant="h4"
@@ -38,7 +39,10 @@ const CryptoNews = (props) => {
             Latest mentions
           </Typography>
           {data.totalResults < 1 ? (
-            <Typography variant="h5" style={{ textAlign: "center" }}>
+            <Typography
+              variant="h5"
+              style={{ textAlign: "center", marginBottom: 20 }}
+            >
               No news found!
             </Typography>
           ) : (
@@ -87,7 +91,43 @@ const CryptoNews = (props) => {
           </Grid>
         </div>
       )}
-      {isLoading && (
+      {error && (
+        <div>
+          <Typography
+            variant="h4"
+            style={{ textAlign: "center", marginTop: 20 }}
+          >
+            Error!
+          </Typography>
+          <Typography
+            variant="h5"
+            style={{ textAlign: "center", marginTop: 10 }}
+          >
+            {error.data.results?.message}
+          </Typography>
+          {error.originalStatus === 403 && (
+            <Typography
+              variant="h5"
+              style={{
+                display: "flex",
+                alignItems: "center",
+                flexDirection: "column",
+                marginTop: 10,
+              }}
+            >
+              You should turn on Cors to see News
+              <Link
+                style={{ textDecoration: "underline" }}
+                color="inherit"
+                href="https://cors-anywhere.herokuapp.com/corsdemo"
+              >
+                Click here
+              </Link>
+            </Typography>
+          )}
+        </div>
+      )}
+      {isLoading && !error && (
         <div className={classes.loading}>
           <CircularProgress disableShrink />
           <p className={classes.loadingText}>Loading...</p>
