@@ -62,30 +62,37 @@ function App() {
 
   return (
     <ThemeContext.Provider value={{ state, dispatch }}>
-          <ThemeProvider theme={darkTheme}>
-            <CssBaseline />
+      <ThemeProvider theme={darkTheme}>
+        <CssBaseline />
         {!isLoading && (
-          <div>
-      <SearchContext.Provider value={setSearch}>
-            <Navbar search={search} changePage={setPage} />
-      </SearchContext.Provider>
-          <PageContext.Provider value={{ page, setPage }}>
+          <div
+            style={{
+              position: "relative",
+              minHeight: "100vh",
+              display: "flex",
+              flexDirection: "column",
+            }}
+          >
+            <SearchContext.Provider value={setSearch}>
+              <Navbar search={search} changePage={setPage} />
+            </SearchContext.Provider>
+            <PageContext.Provider value={{ page, setPage }}>
               <PageRoute
                 onChangeRowsPerPage={setRowsPerPage}
                 rowsPerPage={rowsPerPage}
-              coins={search === "" ? coins : allCoins}
+                coins={search === "" ? coins : allCoins}
                 search={search}
               />
-          </PageContext.Provider>
+            </PageContext.Provider>
             <Footer />
           </div>
         )}
-      {isLoading && (
-        <div className={classes.loading}>
-          <CircularProgress disableShrink />
-          <p className={classes.loadingText}>Loading...</p>
-        </div>
-      )}
+        {isLoading && (
+          <div className={classes.loading}>
+            <CircularProgress disableShrink />
+            <p className={classes.loadingText}>Loading...</p>
+          </div>
+        )}
       </ThemeProvider>
     </ThemeContext.Provider>
   );

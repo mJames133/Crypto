@@ -1,22 +1,58 @@
 import { Toolbar, Typography, CssBaseline, Divider } from "@material-ui/core";
 import CopyrightIcon from "@mui/icons-material/Copyright";
+import GitHubIcon from "@mui/icons-material/GitHub";
 
 const Footer = () => {
   return (
-    <div style={{ marginTop: 30 }}>
+    <div
+      style={{
+        marginTop: "auto",
+      }}
+    >
       <CssBaseline />
       <Divider />
       <Toolbar
         style={{
-          minHeight: 55,
           display: "flex",
           justifyContent: "center",
+          flexDirection: "column",
         }}
       >
-        <CopyrightIcon />
-        <Typography variant="body1" color="inherit" style={{ paddingLeft: 5 }}>
-          2021 mJames
-        </Typography>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            margin: "10px 0",
+          }}
+        >
+          <CopyrightIcon />
+          <Typography
+            variant="body1"
+            color="inherit"
+            style={{ paddingLeft: 5 }}
+          >
+            2021 mJames
+          </Typography>
+        </div>
+        <a
+          href="https://github.com/mJames133/Crypto"
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            paddingBottom: 10,
+            color: "inherit",
+            textDecoration: "none",
+          }}
+        >
+          <GitHubIcon />
+          <Typography
+            variant="body1"
+            color="inherit"
+            style={{ paddingLeft: 5 }}
+          >
+            Source
+          </Typography>
+        </a>
       </Toolbar>
     </div>
   );
